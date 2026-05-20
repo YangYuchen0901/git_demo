@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>985大学校徽汇总</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: linear-gradient(135deg, #0a0e27 0%, #1a1040 30%, #0d1525 60%, #0a0e27 100%);
+    background-attachment: fixed;
+    min-height: 100vh;
+    font-family: 'Microsoft YaHei', 'PingFang SC', sans-serif;
+    color: #fff;
+  }
+  /* 粒子背景 */
+  .particles {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none; z-index: 0;
+  }
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 30px 20px;
+    position: relative;
+    z-index: 1;
+  }
+  header {
+    text-align: center;
+    padding: 40px 0 20px;
+  }
+  header h1 {
+    font-size: 42px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffd700, #ff6b35, #ffd700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    letter-spacing: 4px;
+    margin-bottom: 8px;
+  }
+  header .subtitle {
+    font-size: 16px;
+    color: #8899bb;
+    letter-spacing: 2px;
+  }
+  /* 统计栏 */
+  .stats {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px 0 30px;
+    flex-wrap: wrap;
+  }
+  .stat-item {
+    text-align: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 14px 28px;
+    backdrop-filter: blur(10px);
+  }
+  .stat-item .num {
+    font-size: 28px;
+    font-weight: 900;
+    background: linear-gradient(135deg, #ffd700, #ffaa00);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .stat-item .label { font-size: 13px; color: #8899bb; margin-top: 2px; }
+
+  /* 筛选 */
+  .filter-bar {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 30px;
+  }
+  .filter-btn {
+    padding: 8px 18px;
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.04);
+    color: #aabbcc;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.3s;
+    font-family: inherit;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: rgba(255,200,50,0.15);
+    border-color: #ffd700;
+    color: #ffd700;
+  }
+
+  /* 卡片网格 */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+  }
+  .card {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 24px 16px 18px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(6px);
+  }
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(255,200,50,0.08), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.35s;
+  }
+  .card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(255,200,50,0.3);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.4), 0 0 30px rgba(255,200,50,0.08);
+  }
+  .card:hover::before { opacity: 1; }
+  .card:active { transform: scale(0.97); }
+
+  /* 校徽容器 */
+  .emblem-wrap {
+    width: 90px;
+    height: 90px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    position: relative;
+    background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.08), rgba(255,255,255,0.02));
+    border: 2px solid rgba(255,255,255,0.12);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.4s;
+  }
+  .card:hover .emblem-wrap {
+    border-color: rgba(255,200,50,0.5);
+    box-shadow: 0 0 24px rgba(255,200,50,0.15);
+  }
+  .emblem-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+  /* 文字校徽 */
+  .emblem-text {
+    font-size: 32px;
+    font-weight: 900;
+    color: #ccd;
+    transition: color 0.3s;
+    user-select: none;
+  }
+  .card:hover .emblem-text { color: #ffd700; }
+
+  .card .name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #dde;
+    margin-bottom: 4px;
+    letter-spacing: 1px;
+  }
+  .card .location {
+    font-size: 11px;
+    color: #8899bb;
+    margin-bottom: 4px;
+  }
+  .card .tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(255,200,50,0.12);
+    color: #ccaa44;
+    border: 1px solid rgba(255,200,50,0.2);
+  }
+  .card .c9-tag {
+    background: rgba(255,100,50,0.12);
+    color: #ff8855;
+    border-color: rgba(255,100,50,0.25);
+  }
+
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    color: #556;
+    font-size: 12px;
+  }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    header h1 { font-size: 28px; }
+    .grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; }
+    .emblem-wrap { width: 64px; height: 64px; }
+    .emblem-text { font-size: 24px; }
+    .card .name { font-size: 13px; }
+    .card { padding: 18px 10px 14px; }
+  }
+</style>
+</head>
+<body>
+
+<canvas class="particles" id="particles"></canvas>
+
+<div class="container">
+  <header>
+    <h1>中国39所985大学校徽</h1>
+    <p class="subtitle">PROJECT 985 · 点击校名访问官方网站</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat-item"><div class="num" id="count">39</div><div class="label">985高校</div></div>
+    <div class="stat-item"><div class="num">9</div><div class="label">C9联盟</div></div>
+    <div class="stat-item"><div class="num">22</div><div class="label">所在省市</div></div>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">全部 (39)</button>
+    <button class="filter-btn" data-filter="c9">C9联盟</button>
+    <button class="filter-btn" data-filter="north">华北地区</button>
+    <button class="filter-btn" data-filter="east">华东地区</button>
+    <button class="filter-btn" data-filter="center">华中地区</button>
+    <button class="filter-btn" data-filter="south">华南地区</button>
+    <button class="filter-btn" data-filter="west">西部地区</button>
+    <button class="filter-btn" data-filter="northeast">东北地区</button>
+  </div>
+
+  <div class="grid" id="grid"></div>
+</div>
+
+<footer>
+  点击任意大学卡片即可跳转至该校官方网站 &nbsp;|&nbsp; 数据来源：各高校官网
+</footer>
+
+<script>
+// ========== 39所985大学数据 ==========
+const universities = [
+  { id:'pku', name:'北京大学', abbr:'北大', loc:'北京', url:'https://www.pku.edu.cn', region:'north', c9:true, logo:'https://www.pku.edu.cn/img/logo.png' },
+  { id:'tsinghua', name:'清华大学', abbr:'清华', loc:'北京', url:'https://www.tsinghua.edu.cn', region:'north', c9:true, logo:'https://www.tsinghua.edu.cn/images/logo.png' },
+  { id:'ruc', name:'中国人民大学', abbr:'人大', loc:'北京', url:'https://www.ruc.edu.cn', region:'north', c9:false, logo:'' },
+  { id:'buaa', name:'北京航空航天大学', abbr:'北航', loc:'北京', url:'https://www.buaa.edu.cn', region:'north', c9:false, logo:'' },
+  { id:'bit', name:'北京理工大学', abbr:'北理工', loc:'北京', url:'https://www.bit.edu.cn', region:'north', c9:false, logo:'' },
+  { id:'bnu', name:'北京师范大学', abbr:'北师大', loc:'北京', url:'https://www.bnu.edu.cn', region:'north', c9:false, logo:'' },
+  { id:'cau', name:'中国农业大学', abbr:'农大', loc:'北京', url:'https://www.cau.edu.cn', region:'north', c9:false, logo:'' },
+  { id:'muc', name:'中央民族大学', abbr:'民大', loc:'北京', url:'https://www.muc.edu.cn', region:'north', c9:false, logo:'' },
+  { id:'nankai', name:'南开大学', abbr:'南开', loc:'天津', url:'https://www.nankai.edu.cn', region:'north', c9:false, logo:'' },
+  { id:'tju', name:'天津大学', abbr:'天大', loc:'天津', url:'https://www.tju.edu.cn', region:'north', c9:false, logo:'' },
+  { id:'fudan', name:'复旦大学', abbr:'复旦', loc:'上海', url:'https://www.fudan.edu.cn', region:'east', c9:true, logo:'' },
+  { id:'sjtu', name:'上海交通大学', abbr:'上交', loc:'上海', url:'https://www.sjtu.edu.cn', region:'east', c9:true, logo:'' },
+  { id:'tongji', name:'同济大学', abbr:'同济', loc:'上海', url:'https://www.tongji.edu.cn', region:'east', c9:false, logo:'' },
+  { id:'ecnu', name:'华东师范大学', abbr:'华东师大', loc:'上海', url:'https://www.ecnu.edu.cn', region:'east', c9:false, logo:'' },
+  { id:'nju', name:'南京大学', abbr:'南大', loc:'南京', url:'https://www.nju.edu.cn', region:'east', c9:true, logo:'' },
+  { id:'seu', name:'东南大学', abbr:'东大', loc:'南京', url:'https://www.seu.edu.cn', region:'east', c9:false, logo:'' },
+  { id:'zju', name:'浙江大学', abbr:'浙大', loc:'杭州', url:'https://www.zju.edu.cn', region:'east', c9:true, logo:'' },
+  { id:'ustc', name:'中国科学技术大学', abbr:'中科大', loc:'合肥', url:'https://www.ustc.edu.cn', region:'east', c9:true, logo:'' },
+  { id:'xmu', name:'厦门大学', abbr:'厦大', loc:'厦门', url:'https://www.xmu.edu.cn', region:'east', c9:false, logo:'' },
+  { id:'sdu', name:'山东大学', abbr:'山大', loc:'济南', url:'https://www.sdu.edu.cn', region:'east', c9:false, logo:'' },
+  { id:'ouc', name:'中国海洋大学', abbr:'海大', loc:'青岛', url:'https://www.ouc.edu.cn', region:'east', c9:false, logo:'' },
+  { id:'whu', name:'武汉大学', abbr:'武大', loc:'武汉', url:'https://www.whu.edu.cn', region:'center', c9:false, logo:'' },
+  { id:'hust', name:'华中科技大学', abbr:'华科', loc:'武汉', url:'https://www.hust.edu.cn', region:'center', c9:false, logo:'' },
+  { id:'csu', name:'中南大学', abbr:'中南', loc:'长沙', url:'https://www.csu.edu.cn', region:'center', c9:false, logo:'' },
+  { id:'hnu', name:'湖南大学', abbr:'湖大', loc:'长沙', url:'https://www.hnu.edu.cn', region:'center', c9:false, logo:'' },
+  { id:'nudt', name:'国防科技大学', abbr:'国防科大', loc:'长沙', url:'https://www.nudt.edu.cn', region:'center', c9:false, logo:'' },
+  { id:'sysu', name:'中山大学', abbr:'中大', loc:'广州', url:'https://www.sysu.edu.cn', region:'south', c9:false, logo:'' },
+  { id:'scut', name:'华南理工大学', abbr:'华工', loc:'广州', url:'https://www.scut.edu.cn', region:'south', c9:false, logo:'' },
+  { id:'scu', name:'四川大学', abbr:'川大', loc:'成都', url:'https://www.scu.edu.cn', region:'west', c9:false, logo:'' },
+  { id:'uestc', name:'电子科技大学', abbr:'电子科大', loc:'成都', url:'https://www.uestc.edu.cn', region:'west', c9:false, logo:'' },
+  { id:'cqu', name:'重庆大学', abbr:'重大', loc:'重庆', url:'https://www.cqu.edu.cn', region:'west', c9:false, logo:'' },
+  { id:'xjtu', name:'西安交通大学', abbr:'西交', loc:'西安', url:'https://www.xjtu.edu.cn', region:'west', c9:true, logo:'' },
+  { id:'nwpu', name:'西北工业大学', abbr:'西工大', loc:'西安', url:'https://www.nwpu.edu.cn', region:'west', c9:false, logo:'' },
+  { id:'nwafu', name:'西北农林科技大学', abbr:'西北农林', loc:'杨凌', url:'https://www.nwafu.edu.cn', region:'west', c9:false, logo:'' },
+  { id:'lzu', name:'兰州大学', abbr:'兰大', loc:'兰州', url:'https://www.lzu.edu.cn', region:'west', c9:false, logo:'' },
+  { id:'hit', name:'哈尔滨工业大学', abbr:'哈工大', loc:'哈尔滨', url:'https://www.hit.edu.cn', region:'northeast', c9:true, logo:'' },
+  { id:'dlut', name:'大连理工大学', abbr:'大工', loc:'大连', url:'https://www.dlut.edu.cn', region:'northeast', c9:false, logo:'' },
+  { id:'neu', name:'东北大学', abbr:'东大', loc:'沈阳', url:'https://www.neu.edu.cn', region:'northeast', c9:false, logo:'' },
+  { id:'jlu', name:'吉林大学', abbr:'吉大', loc:'长春', url:'https://www.jlu.edu.cn', region:'northeast', c9:false, logo:'' }
+];
+
+// ========== 卡片颜色方案 ==========
+const colorSchemes = [
+  { bg: 'rgba(180,40,40,0.12)', border: 'rgba(200,80,80,0.25)', text: '#e88'  },
+  { bg: 'rgba(40,80,180,0.12)', border: 'rgba(80,120,200,0.25)', text: '#8af'  },
+  { bg: 'rgba(40,140,100,0.12)', border: 'rgba(80,180,140,0.25)', text: '#8d8'  },
+  { bg: 'rgba(160,120,40,0.12)', border: 'rgba(200,160,80,0.25)', text: '#ea8'  },
+  { bg: 'rgba(120,40,160,0.12)', border: 'rgba(160,80,200,0.25)', text: '#c8f'  },
+  { bg: 'rgba(40,140,160,0.12)', border: 'rgba(80,180,200,0.25)', text: '#8dd'  },
+];
+
+// ========== 渲染卡片 ==========
+const grid = document.getElementById('grid');
+
+function renderCards(filter = 'all') {
+  grid.innerHTML = '';
+  let visibleCount = 0;
+  universities.forEach((u, i) => {
+    if (filter !== 'all') {
+      if (filter === 'c9' && !u.c9) return;
+      if (filter !== 'c9' && u.region !== filter) return;
+    }
+    visibleCount++;
+    const cs = colorSchemes[i % colorSchemes.length];
+    const a = document.createElement('a');
+    a.className = 'card';
+    a.href = u.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.title = `${u.name} — 点击访问官网`;
+    a.style.setProperty('--cs-bg', cs.bg);
+    a.style.setProperty('--cs-border', cs.border);
+    a.style.setProperty('--cs-text', cs.text);
+
+    const regionNames = { north:'华北', east:'华东', center:'华中', south:'华南', west:'西部', northeast:'东北' };
+
+    a.innerHTML = `
+      <div class="emblem-wrap">
+        ${u.logo ? `<img src="${u.logo}" alt="${u.name}校徽" loading="lazy"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='block';"
+          onload="this.style.display='block';this.nextElementSibling.style.display='none';">` : ''}
+        <span class="emblem-text" style="display:${u.logo ? 'block' : 'block'}">${u.abbr}</span>
+      </div>
+      <div class="name">${u.name}</div>
+      <div class="location">${u.loc} · ${regionNames[u.region]}</div>
+      <span class="tag${u.c9 ? ' c9-tag' : ''}">${u.c9 ? 'C9联盟' : '985工程'}</span>
+    `;
+    grid.appendChild(a);
+  });
+  document.getElementById('count').textContent = visibleCount;
+}
+
+// ========== 筛选按钮 ==========
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderCards(btn.dataset.filter);
+  });
+});
+
+// ========== 粒子背景 ==========
+const pCanvas = document.getElementById('particles');
+const pCtx = pCanvas.getContext('2d');
+let pW, pH;
+const dots = [];
+
+function resizeParticles() {
+  pW = pCanvas.width = window.innerWidth;
+  pH = pCanvas.height = window.innerHeight;
+}
+resizeParticles();
+window.addEventListener('resize', resizeParticles);
+
+for (let i = 0; i < 60; i++) {
+  dots.push({
+    x: Math.random() * pW,
+    y: Math.random() * pH,
+    r: Math.random() * 1.2 + 0.4,
+    vx: (Math.random() - 0.5) * 0.4,
+    vy: (Math.random() - 0.5) * 0.4,
+    alpha: Math.random() * 0.5 + 0.2,
+  });
+}
+
+function animateParticles() {
+  pCtx.clearRect(0, 0, pW, pH);
+  dots.forEach(d => {
+    d.x += d.vx;
+    d.y += d.vy;
+    if (d.x < 0) d.x = pW;
+    if (d.x > pW) d.x = 0;
+    if (d.y < 0) d.y = pH;
+    if (d.y > pH) d.y = 0;
+    pCtx.beginPath();
+    pCtx.arc(d.x, d.y, d.r, 0, Math.PI * 2);
+    pCtx.fillStyle = `rgba(200,200,255,${d.alpha})`;
+    pCtx.fill();
+  });
+  requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// ========== 初始渲染 ==========
+renderCards('all');
+</script>
+</body>
+</html>
